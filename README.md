@@ -4,3 +4,6 @@ https://api.ngc.nvidia.com/v2/models/nvidia/research/stylegan2/versions/1/files/
 
 2. run dataset_mean_std.py to calculate mean and standard deviation of the dataset. We take only 200 real samples from celebA-HQ dataset.
 3. set mean values to mu list in FWA.py file line no. 5
+4. Run SGAN2.py to generate images from baseline StyleGAN2.
+5. Run SGAN2_FWA.py to generate images from StyleGAN2 plugged with FWA algorithm.
+6. Run 
