@@ -1,0 +1,11 @@
+from cleanfid import fid
+# fid.make_custom_stats('clip_celeba256', '/media/NVME/PRIYO-DATA/EXPLAINABLE_DATASET/SGAN2_CELBAHQ256/train/2024/',mode="clean", model_name="clip_vit_b_32")
+# fid.make_custom_stats('celeba256', '/media/NVME/PRIYO-DATA/EXPLAINABLE_DATASET/SGAN2_CELBAHQ256/train/2024/',mode="clean")
+# test=fid.test_stats_exists('celeb256_2024', mode="clean")
+# print(test)
+# test=fid.remove_custom_stats('celeba256', mode="clean")
+# print(test)
+score=fid.compute_fid('test_res/FWA', dataset_name='clip_celeba256',model_name="clip_vit_b_32",dataset_res=256)
+# score=fid.compute_fid('test_res/SGAN2', dataset_name='celeba256',dataset_res=256)
+# score=fid.compute_fid('/media/NVME/PRIYO-DATA/EXPLAINABLE_DATASET/SGAN2_CELBAHQ256/train/2024/','test_res/FWA',model_name="clip_vit_b_32")
+print(score)
