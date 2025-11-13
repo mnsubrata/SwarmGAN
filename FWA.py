@@ -2,9 +2,10 @@ import numpy as np
 import torch
 device='cuda' if torch.cuda.is_available() else 'cpu'
 
-ref_r=torch.normal(0.5045,0,(256,256))
-ref_g=torch.normal(0.4075,0,(256,256))
-ref_b=torch.normal(0.3548,0,(256,256))
+mu=[0.5045, 0.4075, 0.3548]
+ref_r=torch.normal(mu[0],0,(256,256))
+ref_g=torch.normal(mu[1],0,(256,256))
+ref_b=torch.normal(mu[2],0,(256,256))
 ref_img=torch.stack([ref_r,ref_g,ref_b],dim=0).to(device)
 
 
