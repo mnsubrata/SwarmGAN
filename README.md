@@ -1,3 +1,6 @@
-Download pre-trained stylegan2 model (trained on celebahq-256x256 dataset) and keep it in root folder
+1. Download pre-trained stylegan2 model (trained on celebahq-256x256 dataset) and keep it in root folder
 
 wget https://api.ngc.nvidia.com/v2/models/nvidia/research/stylegan2/versions/1/files/stylegan2-celebahq-256x256.pkl
+
+2. run dataset_mean_std.py to calculate mean and standard deviation of the dataset. We take only 200 real samples from celebA-HQ dataset.
+3. 
