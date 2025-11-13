@@ -1,11 +1,11 @@
-from cleanfid import fid
-# fid.make_custom_stats('clip_celeba256', '/media/NVME/PRIYO-DATA/EXPLAINABLE_DATASET/SGAN2_CELBAHQ256/train/2024/',mode="clean", model_name="clip_vit_b_32")
-# fid.make_custom_stats('celeba256', '/media/NVME/PRIYO-DATA/EXPLAINABLE_DATASET/SGAN2_CELBAHQ256/train/2024/',mode="clean")
-# test=fid.test_stats_exists('celeb256_2024', mode="clean")
-# print(test)
-# test=fid.remove_custom_stats('celeba256', mode="clean")
-# print(test)
-score=fid.compute_fid('test_res/FWA', dataset_name='clip_celeba256',model_name="clip_vit_b_32",dataset_res=256)
-# score=fid.compute_fid('test_res/SGAN2', dataset_name='celeba256',dataset_res=256)
-# score=fid.compute_fid('/media/NVME/PRIYO-DATA/EXPLAINABLE_DATASET/SGAN2_CELBAHQ256/train/2024/','test_res/FWA',model_name="clip_vit_b_32")
+import torch
+from iqa.fid_pyiqa import FID
+
+device='cuda' if torch.cuda.is_available() else 'cpu'
+
+
+FID_obj=FID().to(device=device) #####for priya_iqa
+f_img_path='test_res/FWA' # path where generated images are stored
+r_img_path='CELBAHQ256/'  # path where original images are stored
+score_iqa=FID_obj(f_img_path,r_img_path)
 print(score)
