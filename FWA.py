@@ -1,22 +1,12 @@
-# from sklearn.preprocessing import minmax_scale
 import numpy as np
 import torch
-from torchvision import transforms as T
-from PIL import Image
 device='cuda' if torch.cuda.is_available() else 'cpu'
-trf=T.Compose([T.ToTensor()])#,T.Normalize([0.5274, 0.4251, 0.3743],[0.3050, 0.2792, 0.2735])])
-# mu_n_var=torch.load('VAE_mean_mu_var_CELEBAHQ_LAT_256.pth')
-# mu,logvar=mu_n_var['mu_mean'],mu_n_var['logvar_mean']
-# mu=torch.mean(mu,dim=0).item()
-# kl_div=-0.5 * torch.sum(1 + logvar - mu ** 2 - logvar.exp())
-# ref_img=trf(Image.open('celeba_mean_img.png')).to(device)
+
 ref_r=torch.normal(0.5045,0,(256,256))
 ref_g=torch.normal(0.4075,0,(256,256))
 ref_b=torch.normal(0.3548,0,(256,256))
 ref_img=torch.stack([ref_r,ref_g,ref_b],dim=0).to(device)
 
-# ref_img=torch.randn(3,256,256).to(device)
-# # ref_img=(2*((ref_img-ref_img.min())/(ref_img.max()-ref_img.min()))-1).to(device) #normalize to [-1 and 1]
 
 def calculate_objectives(fp):
     shp=fp.shape
@@ -25,7 +15,7 @@ def calculate_objectives(fp):
     else:
         target=ref_img
     rec_loss=torch.nn.functional.mse_loss(fp,target)
-    err=rec_loss#+kl_div
+    err=rec_loss
     return err.item()
 
 def FWA(model_G,*args):
@@ -166,26 +156,3 @@ def FWA(model_G,*args):
         all_fireworks=all_fireworks[sorted_objectives_idx][:n_fireworks,:]
         all_objective_values=all_objective_values[sorted_objectives_idx][:n_fireworks]
     return best_candidate
-if __name__=='__main__':
-    import dnnlib
-    import legacy
-    import time
-    network_pkl='stylegan2-celebahq-256x256.pkl'
-    seeds=0
-    truncation_psi=1
-    noise_mode='const'
-    outdir='out'
-    class_idx=None
-    projected_w=None
-
-    print(f'Loading networks from {network_pkl}')
-    device='cuda' if torch.cuda.is_available() else 'cpu'
-    with dnnlib.util.open_url(network_pkl) as f:
-        G = legacy.load_network_pkl(f)['G_ema'].to(device) # type: ignore
-    label = torch.zeros([1, G.c_dim], device=device)
-    params=[label,truncation_psi,noise_mode]
-    start_time = time.time()
-    latent=FWA(G,*params)
-    end_time=time.time()
-    print("TIME TAKEN:",(end_time-start_time))
-    pp=10
